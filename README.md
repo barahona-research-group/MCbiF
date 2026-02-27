@@ -46,9 +46,9 @@ Please cite our paper if you use this code in your own work:
 @inproceedings{schindlerMCbiFMeasuringTopological2026,
   author = {Schindler, Juni and Barahona, Mauricio},
   title = {MCbiF: Measuring Topological Autocorrelation in Multiscale Clusterings via 2-Parameter Persistent Homology},
-  booktitle={The Fourteenth International Conference on Learning Representations},
-  year={2026},
-  url={https://openreview.net/forum?id=E7D6uybODJ}
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year = {2026},
+  url = {https://openreview.net/forum?id=E7D6uybODJ}
   doi = {10.48550/arXiv.2510.14710}
 }
 ```
