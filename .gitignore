@@ -1,3 +1,11 @@
+data/
+figures/
+history/
+models/
+cache/
+
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
