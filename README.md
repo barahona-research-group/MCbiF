@@ -1,6 +1,8 @@
+[![DOI](https://zenodo.org/badge/1148147780.svg)](https://doi.org/10.5281/zenodo.18860905)
+
 # Multiscale Clustering Bifiltration (MCbiF)
 
-Python code for the ICLR 2026 conference paper "MCbiF: Measuring Topological Autocorrelation in Multiscale Clusterings via 2-Parameter Persistent Homology" by Juni Schindler and Mauricio Barahona: https://openreview.net/forum?id=E7D6uybODJ
+Code for the ICLR 2026 conference paper "MCbiF: Measuring Topological Autocorrelation in Multiscale Clusterings via 2-Parameter Persistent Homology" by Juni Schindler and Mauricio Barahona: https://openreview.net/forum?id=E7D6uybODJ
 
 ## Installation
 Clone the repository and open the folder in your terminal. 
