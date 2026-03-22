@@ -84,6 +84,7 @@ class MultiscaleClusteringBifiltration:
     def load_data(self, partitions, filtration_indices=None):
         """Method to load sequence of partitions and
         filtration indices."""
+        # TODO: add checks for partitions and filtration indices
         self.partitions = partitions
 
         if filtration_indices is None:
@@ -438,33 +439,26 @@ class MultiscaleClusteringBifiltration:
                 self.ls_1 = np.array(ls_1)
 
     def compute_conflict_0_measures(self):
-        """Compute persistent hierarchy."""
+        """Compute 0-conflict measures."""
   
-        # # compute persistent hierarchy
-        # self.conflict_0 = self.betti_0_rank_ / s_partitions
-
-        # # compute average persistent hierarchy (exclude 1s on diagonal)
-        # self.conflict_0_avg = np.triu(self.conflict_0, 1).sum() / (
-        #     self.n_partitions * (self.n_partitions - 1) / 2
-        # )
-
-        normalisation = self.n_partitions * (self.n_partitions - 1) / 2
-
+        # compute 0-conflict
         self.conflict_0 = np.zeros_like(self.betti_0_rank_)
-
         for i in range(self.betti_0_rank_.shape[0]):
             for j in range(i+1, self.betti_0_rank_.shape[1]):
                 self.conflict_0[i,j] = self.betti_0_rank_[i,j] / np.min(np.diag(self.betti_0_rank_)[i:j+1])
 
+        # compute average 0-conflict
+        normalisation = self.n_partitions * (self.n_partitions - 1) / 2
         self.conflict_0_avg = 1 - self.conflict_0.sum() / normalisation
 
         return self.conflict_0, self.conflict_0_avg
 
     def compute_conflict_1_measures(self):
-        """Compute persistent conflict."""
-        # self.c = ndimage.sobel(self.betti_1_rank, 1)
+        """Compute 1-conflict measures."""
+        # compute average 1-conflict difference
         self.conflict_1_diff = np.gradient(self.betti_1_rank_, axis=1)
 
+        # compute average 1-conflict 
         normalisation = self.n_partitions * (self.n_partitions - 1) / 2
         self.conflict_1_avg = np.sum(self.betti_1_rank_) / normalisation
 
@@ -503,21 +497,21 @@ class MultiscaleClusteringBifiltration:
             else:
                 print("Warning: Could not compute multiparameter persistent homology. ")
 
-        # compute persistent hierarchy and conflict
+        # compute persistent conflict measures
         try:
             self.compute_conflict_0_measures()
         except:
             if tqdm_disable:
                 pass
             else:
-                print("Warning: Could not compute persistent hierarchy. ")
+                print("Warning: Could not compute 0-conflict measures. ")
         try:
             self.compute_conflict_1_measures()
         except:
             if tqdm_disable:
                 pass
             else:
-                print("Warning: Could not compute persistent conflict. ")
+                print("Warning: Could not compute 1-conflict measures. ")
 
         # compute persistence landscapes
         if landscape_resolution > 0:
