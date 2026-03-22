@@ -32,13 +32,65 @@ pip install ."[experiments]"
 
 Note that this package requires an installation of the the `Rivet` software for multiparameter persistent homology. Installation instructions are available here: https://rivet.readthedocs.io/en/latest/installing.html
 
+## Usage
+
+MCbiF can be used to analyse the topological autocorrelation of arbitrary sequences of partitions $\theta$, including non-hierarchical ones. The required input data is:
+
+- `N` times `M` dimensional array `partitions` that stores the cluster IDs of `N` elements across `M` partitions in the sequence $\theta$.
+- `M` dimensional array `filtration_indices` that stores the real-valued scales $t_1,\dots,t_M$ of $\theta$.
+
+See our paper for technical background. The MCbiF pipeline can then be computed as follows:
+
+```python
+from mcbif import MultiscaleClusteringBifiltration
+
+# data for toy example
+partitions = [[0, 1, 2], [0, 0, 1], [0, 1, 1], [0, 1, 0], [0, 0, 0]]
+filtration_indices = [0, 1, 2, 3, 4]
+
+# initialise MCbiF object with nerve-based computation
+mcbif_obj = MultiscaleClusteringBifiltration(method="nerve")
+
+# load partition data
+mcbif_obj.load_data(partitions,filtration_indices)
+
+# compute all MCbiF measures
+mcbif_results = mcbif_obj.compute_all_measures()
+
+# report average 0- and 1-conflict
+print("\nAverage 0-conflict:", mcbif_obj.conflict_0_avg)
+print("Average 1-conflict:", mcbif_obj.conflict_1_avg)
+
+# plot 0- and 1-dimensional Hilbert functions
+mcbif.plot_hilbert_function(0)
+mcbif.plot_hilbert_function(1);
+```
+
+We also provide code for plotting optimised Sankey diagrams:
+
+```python
+from sankey import Sankey
+
+# initialise Sankey object
+sankey_obj = Sankey(partitions=partitions)
+
+# optimise Sankey layout
+sankey_obj.compute_omics_sankey()
+
+# plot Sankey diagram
+fig = sankey.plot_sankey() 
+```
+
+See the notebook `toy_examples.ipynb` for two illustrative examples.
+
+
 ## Experiments
 
-The `\experiments` directory contains code for our three experiments:
+The `\experiments` directory contains code for our three numerical experiments:
 
-- Regression Task: Minimimal Crossing Number of Sankey Layout
-- Classification Task: Non-Order Preserving Sequences of Partitions
-- Application to Real-World Temporal Contact Data of Free-Ranging House Mice
+- Regression Task: Minimimal Crossing Number of Sankey Layout (`experiments\regression`)
+- Classification Task: Non-Order Preserving Sequences of Partitions (`experiments\classification`)
+- Application to Real-World Temporal Contact Data of Free-Ranging House Mice (`experiments\wild_mice`)
 
 ## Cite
 
